@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  　　<meta name="viewport" content="width=device-width" >
   <title>AWS-MQTT</title>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script src="jquery-3.6.1.min.js"></script>
   <link href="picnic.min.css" rel="stylesheet" />
-   
+ 
 </head>
 <body>
    <article class="card">
@@ -44,7 +45,7 @@
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
    const searchParams = new URLSearchParams(window.location.search)
    const pub_sub = searchParams.get('pub_sub');
-   const isPub = pub_sub ==null | pub_sub != "sub";
+   const isPub = (pub_sub == null | pub_sub != "sub");
    const mqttOpt = { keepalive: 60*10};
    mqttOpt.username=searchParams.get('user');
    mqttOpt.password=searchParams.get('pwd');
