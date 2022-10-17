@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <title>AWS-MQTT</title>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
- 
+  <script src="jquery-3.6.1.min.js"></script>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
       var ul_msg=document.getElementById("ul_msg");
       var li = document.createElement('li');
       li.innerHTML = msg;
-      ul_msg.appendChild(li);
+      $("#ul_msg").prepend(li);
    }
    function getHMS(){
       const date = new Date();
