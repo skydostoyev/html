@@ -36,7 +36,7 @@
    }
    function getHMSM(){
       const date = new Date();
-      const hmsm = '"'+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+":"+date.getMilliseconds()+'"';
+      const hmsm = '"'+date.getHours().padStart(2,"0")+":"+date.getMinutes().padStart(2,"0")+":"+date.getSeconds().padStart(2,"0")+":"+date.getMilliseconds().padStart(3,"0")+'"';
       return  hmsm 
    }
 </script>
