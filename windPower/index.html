@@ -44,7 +44,7 @@
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
    const searchParams = new URLSearchParams(window.location.search)
    const pub_sub = searchParams.get('pub_sub');
-   const isPub = pub_sub ==null | pub_sub != "pub";
+   const isPub = pub_sub ==null | pub_sub != "sub";
    const mqttOpt = { keepalive: 60*10};
    mqttOpt.username=searchParams.get('user');
    mqttOpt.password=searchParams.get('pwd');
