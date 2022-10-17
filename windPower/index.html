@@ -1,40 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <title>AWS-MQTT</title>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
- 
+  <script src="jquery-3.6.1.min.js"></script>
+  <link href="picnic.min.css" rel="stylesheet" />
+   
 </head>
-
 <body>
-<div id="id_pub">
-   <button  type="button" onclick="publish()">送信</button>
-</div>
-<div id="id_sub">
-   <p>受信</p>
-</div>
-</div>
-<div><ul id="ul_msg"></ul></div>
+   <article class="card">
+      <header><h3>Wind Power</h3></header>
+   </article>
+   <article class="card">
+      <header>
+         <div id="id_pub">
+            <button class="btn primary" type="button" onclick="publish()">送信</button>
+            <p>※現地エッジデバイス</p>
+         </div>
+         <div id="id_sub">
+            <button disabled>受信</button>
+            <p>※オンプレミス</p>
+         </div>
+         </div>
+      </header>
+      <div><ul id="ul_msg"></ul></div>
+    </article>
+      
 <script>
-   function appendMsg(msg){
+   function appendEvent(event,hmsm,msg){
       var ul_msg=document.getElementById("ul_msg");
       var li = document.createElement('li');
-      li.innerHTML = msg;
-      ul_msg.appendChild(li);
+      li.innerHTML = '{["'+event+'",'+hmsm+'],['+msg+']}';
+      $("#ul_msg").prepend(li);
    }
-   function getHMS(){
+   function getHMSM(){
       const date = new Date();
-      const hms = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-      return '{"送信時刻":' + hms + '}'
+      const hmsm = '"'+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+":"+date.getMilliseconds()+'"';
+      return  hmsm 
    }
 </script>
 <script>
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
    const searchParams = new URLSearchParams(window.location.search)
    const pub_sub = searchParams.get('pub_sub');
-   const mqttOpt = { keepalive: 60};
+   const isPub = pub_sub == "pub";
+   const mqttOpt = { keepalive: 60*10};
    mqttOpt.username=searchParams.get('user');
    mqttOpt.password=searchParams.get('pwd');
    mqttOpt.clientId=searchParams.get('clientId');
@@ -44,54 +55,56 @@
       mqttOpt.clientId=mqttOpt.username+"-"+ticks;
    }   
 </script>
-
 <script>
-   const state = {sbscribe: false}
+   const state = {subscribe: false}
    let topic = "users/" + mqttOpt.username + "/value"
-   
 </script>
 <script>
    let client = mqtt.connect('wss://a1zozlrub2di0x-ats.iot.ap-northeast-1.amazonaws.com:443?x-amz-customauthorizer-name=iotCCustomAuth&testonly=yokohama',mqttOpt);
-
    client.on('connect', function () {
-   appendMsg("CONNECTED")
-   if(!state.sbscribe){
+   appendEvent("接続",getHMSM(),"")
+   if(!state.subscribe & !isPub){
       client.subscribe(topic, function (err) {     
             if (!err) {
-               appendMsg("SUBSCRIBE")      
+               appendEvent("購読",getHMSM(),"")      
             }
          })
-         state.sbscribe=true;
+         state.subscribe=true;
       }
    })
-
   client.on('message', function (topic, message) {
   // message is Buffer
-  appendMsg(message.toString())
+      
+      appendEvent("受信",getHMSM(),message.toString())
+      
  // client.end()
-})
+   })
+   client.on('offline', function () {
+      appendEvent("オフ",getHMSM(),"")
+   })
 
 </script>
 <script>
    window.onload=()=>{
        if(pub_sub!="sub"){
          const elem=document.getElementById("id_sub");
-         elem.style.visibility ="hidden";
+         elem.style.display ="none";
       }
       else{
          const elem=document.getElementById("id_pub");
-         elem.style.visibility ="hidden";
+         elem.style.display ="none";
       }
    }
 </script>
-<script>
-  
-  
+<script>  
    window.onclose = ()=>{client.end();}
-   function publish(){client.publish(topic,getHMS())}
+   function publish(){
+      let getHMSM_pub=getHMSM();
+      client.publish(topic,"送信時刻 = "+getHMSM_pub);
+      appendEvent("送信",getHMSM_pub,"") 
+      }
 </script>
 </body>
-
 </html>
 
 
