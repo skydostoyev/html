@@ -11,16 +11,22 @@
 </head>
 <body>
    <article class="card">
-      <header><h3>Wind Power</h3></header>
+      <header><h3>Wind Power</h3><h4 id="h4_wp"></h4></header>
    </article>
    <article class="card">
       <header>
-         <div id="id_pub">
+         <div id="id_home" style="display:none">
+            <a id="a_sub" href="https://skydostoev.github.io/html/windPower/?pub_sub=sub" target="_blank">①=>受信(オンプレミス)</a>
+            <br/>
+            <a id="a_pub" href="https://skydostoev.github.io/html/windPower/?pub_sub=pub" target="_blank">②=>送信(現地エッジデバイス)</a>
+            
+            
+         </div>
+         <div id="id_pub" style="display:none">
             <button class="btn primary" type="button" onclick="publish()">送信</button>
             <p>※現地エッジデバイス</p>
          </div>
-         <div id="id_sub">
-            <button disabled>受信</button>
+         <div id="id_sub" style="display:none">
             <p>※オンプレミス</p>
          </div>
          </div>
@@ -37,7 +43,11 @@
    }
    function getHMSM(){
       const date = new Date();
-      const hmsm = '"'+date.getHours().toString().padStart(2,"0")+":"+date.getMinutes().toString().padStart(2,"0")+":"+date.getSeconds().toString().padStart(2,"0")+":"+date.getMilliseconds().toString().padStart(3,"0")+'"';
+      const hmsm = '"'+
+         date.getHours().toString().padStart(2,"0")+":"+
+         date.getMinutes().toString().padStart(2,"0")+":"+
+         date.getSeconds().toString().padStart(2,"0")+":"+
+         date.getMilliseconds().toString().padStart(3,"0")+'"';
       return  hmsm 
    }
 </script>
@@ -45,7 +55,9 @@
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
    const searchParams = new URLSearchParams(window.location.search)
    const pub_sub = searchParams.get('pub_sub');
-   const isPub = (pub_sub == null | pub_sub != "sub");
+   const isPub = pub_sub == "pub";
+   const isSub = pub_sub == "sub";
+   const nonePubSub = !(isPub | isSub);
    const mqttOpt = { keepalive: 60*10};
    mqttOpt.username=searchParams.get('user');
    mqttOpt.password=searchParams.get('pwd');
@@ -61,39 +73,56 @@
    let topic = "users/" + mqttOpt.username + "/value"
 </script>
 <script>
-   let client = mqtt.connect('wss://a1zozlrub2di0x-ats.iot.ap-northeast-1.amazonaws.com:443?x-amz-customauthorizer-name=iotCCustomAuth&testonly=yokohama',mqttOpt);
-   client.on('connect', function () {
-   appendEvent("接続",getHMSM(),"")
-   if(!state.subscribe & !isPub){
-      client.subscribe(topic, function (err) {     
-            if (!err) {
-               appendEvent("購読",getHMSM(),"")      
-            }
-         })
-         state.subscribe=true;
-      }
-   })
-  client.on('message', function (topic, message) {
-  // message is Buffer
+   let client;
+   if(!nonePubSub){
+      client = mqtt.connect('wss://a1zozlrub2di0x-ats.iot.ap-northeast-1.amazonaws.com:443?x-amz-customauthorizer-name=iotCCustomAuth&testonly=yokohama',mqttOpt);
+      client.on('connect', function () {
+      appendEvent("接続",getHMSM(),"")
+      if(!state.subscribe & isSub){
+         client.subscribe(topic, function (err) {     
+               if (!err) {
+                  appendEvent("購読",getHMSM(),"")      
+               }
+            })
+            state.subscribe=true;
+         }
+      })
       
-      appendEvent("受信",getHMSM(),message.toString())
-      
- // client.end()
-   })
-   client.on('offline', function () {
-      appendEvent("オフ",getHMSM(),"")
-   })
-
+   client.on('message', function (topic, message) {
+   // message is Buffer
+         
+         appendEvent("受信",getHMSM(),message.toString())
+         
+   // client.end()
+      })
+      client.on('offline', function () {
+         appendEvent("オフ",getHMSM(),"")
+      })
+   }
 </script>
 <script>
    window.onload=()=>{
-       if(pub_sub!="sub"){
+      var targetSub = document.getElementById("a_sub");
+      targetSub.href = location.pathname+"?pub_sub=sub";
+      var targetPub = document.getElementById("a_pub");
+      targetPub.href = location.pathname+"?pub_sub=pub";
+        
+      if(isPub){
+         const elem=document.getElementById("id_pub");
+         elem.style.display ="block";
+         document.getElementById("h4_wp").innerHTML="送信用";
+         
+
+      }
+      else if(isSub){
          const elem=document.getElementById("id_sub");
-         elem.style.display ="none";
+         elem.style.display ="block";
+         document.getElementById("h4_wp").innerHTML="受信用";
+         
       }
       else{
-         const elem=document.getElementById("id_pub");
-         elem.style.display ="none";
+         const elem=document.getElementById("id_home");
+         elem.style.display ="block";
       }
    }
 </script>
