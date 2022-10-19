@@ -6,8 +6,15 @@
   <title>AWS-MQTT</title>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script src="jquery-3.6.1.min.js"></script>
-  <link href="picnic.min.css" rel="stylesheet" />
- 
+  <link rel="stylesheet" href="bulma.css">
+ <style>
+   body{
+      width: 100%;
+      max-width: 512px;
+      margin: auto;
+   }
+  
+</style>
 </head>
 <body>
    <article class="card">
@@ -21,7 +28,6 @@
          </div>         
       </header>
     </article>
-      
 <script>
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
    const searchParams = new URLSearchParams(window.location.search)
