@@ -99,7 +99,7 @@
         
          return;
       }
-      alert("publish")
+      alert("publish"+topic+" "+(!state.isOn).toString())
        client.publish(topic,(!state.isOn).toString());
       
    }
