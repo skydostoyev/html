@@ -67,7 +67,7 @@
                   if (!err) {
                      //alert("購読開始")
                   }
-                  alert(topic)
+                  alert("subsc:"+topic)
                })
                state.subscribe=true;
             }
@@ -99,6 +99,7 @@
         
          return;
       }
+      alert("publish")
        client.publish(topic,(!state.isOn).toString());
       
    }
