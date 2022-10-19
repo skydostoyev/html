@@ -14,13 +14,11 @@
       <header><h3>Wind Power</h3><h4 id="h4_wp"></h4></header>
    </article>
    <article class="card">
-      <header>
-        
+      <header>        
          <div>
-            <button id="btnOnOff" class="btn primary" type="button" onclick="publish()">ON</button>
-            <img  id="imgOffOn" class="fit-picture" src="imgOff.png" alt="画像が見つかりません！" style="display:block">           
-         </div>
-         
+            <button id="btnOnOff" class="btn primary" type="button" onclick="publish()">CONNECT</button>
+            <img  id="imgOffOn" class="fit-picture" src="" alt="" style="display:block">           
+         </div>         
       </header>
     </article>
       
@@ -28,14 +26,10 @@
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
    const searchParams = new URLSearchParams(window.location.search)
    const mqttOpt = { keepalive: 60*10};
-   mqttOpt.username=searchParams.get('user');
-   mqttOpt.password=searchParams.get('pwd');
-   mqttOpt.clientId=searchParams.get('clientId');
-   if(mqttOpt.username==null){
-      mqttOpt.username='test';
-      mqttOpt.password='test';
-      mqttOpt.clientId=mqttOpt.username+"-"+ticks;
-   }   
+   mqttOpt.username = searchParams.get('u');
+   mqttOpt.password = searchParams.get('p');
+   mqttOpt.clientId = mqttOpt.username+"-"+ticks;
+   
 </script>
 <script>
    const state = {subscribe: false,isOn:false}
@@ -45,19 +39,25 @@
    img[0].src = "imgOff.png";
    img[1] = new Image();
    img[1].src = "imgOn.png";
+   img[2] = new Image();
+   img[2].src = "off.png";
 </script>
 <script>
    let client;
    
       client = mqtt.connect('wss://a1zozlrub2di0x-ats.iot.ap-northeast-1.amazonaws.com:443?x-amz-customauthorizer-name=iotCCustomAuth&testonly=yokohama',mqttOpt);
+
       client.on('connect', function () {
-      if(!state.subscribe){
-         client.subscribe(topic, function (err) {     
-               if (!err) {
-               }
-            })
-            state.subscribe=true;
-         }
+         document.getElementById("btnOnOff").innerText="CONNECT";
+         document.getElementById("imgOffOn").src=img[2]
+         
+         if(!state.subscribe){
+            client.subscribe(topic, function (err) {     
+                  if (!err) {
+                  }
+               })
+               state.subscribe=true;
+            }
       })
       
    client.on('message', function (topic, message) {
@@ -79,6 +79,13 @@
 <script>  
    window.onclose = ()=>{client.end();}
    function publish(){
+      // const    date = new Date();
+      // alert(
+      //    mqttOpt.username +
+      //    date.getMonth().toString().padStart(2,"0") +
+      //    date.getDate().toString().padStart(2,"0"));
+
+      if(!client.connected){return;}
       state.isOn=!state.isOn;
       document.getElementById("btnOnOff").innerText=(state.isOn?"OFF":"ON");
       
