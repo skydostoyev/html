@@ -32,7 +32,7 @@
    
 </script>
 <script>
-   const state = {subscribe: false,isOn:false}
+   const state = {subscribe: false,isOn:true}
    let topic = "users/" + mqttOpt.username + "/value"
    var img = new Array();
    img[0] = new Image();
@@ -48,12 +48,11 @@
       client = mqtt.connect('wss://a1zozlrub2di0x-ats.iot.ap-northeast-1.amazonaws.com:443?x-amz-customauthorizer-name=iotCCustomAuth&testonly=yokohama',mqttOpt);
 
       client.on('connect', function () {
-         document.getElementById("btnOnOff").innerText="CONNECT";
-         document.getElementById("imgOffOn").src=img[2]
-         
+         client.publish(topic,"false");
          if(!state.subscribe){
             client.subscribe(topic, function (err) {     
                   if (!err) {
+                     //alert("購読開始")
                   }
                })
                state.subscribe=true;
@@ -61,7 +60,7 @@
       })
       
    client.on('message', function (topic, message) {
-      try{
+     // try{
          const msg=message.toString();
          state.isOn=msg=="true";
          document.getElementById("btnOnOff").innerText=(state.isOn?"OFF":"ON");
@@ -69,27 +68,22 @@
          if(src){
          document.getElementById("imgOffOn").src=src
          }
-      }catch{}
-   // client.end()
+      //}catch{}     
       })
       client.on('offline', function () {
+         client.end() 
       })
    
 </script>
 <script>  
    window.onclose = ()=>{client.end();}
    function publish(){
-      // const    date = new Date();
-      // alert(
-      //    mqttOpt.username +
-      //    date.getMonth().toString().padStart(2,"0") +
-      //    date.getDate().toString().padStart(2,"0"));
-
-      if(!client.connected){return;}
-      state.isOn=!state.isOn;
-      document.getElementById("btnOnOff").innerText=(state.isOn?"OFF":"ON");
       
-      client.publish(topic,state.isOn.toString());
+      if(!client.connected){
+         alert("未接続")
+         return;
+      }
+       client.publish(topic,(!state.isOn).toString());
       
    }
 </script>
