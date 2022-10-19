@@ -63,6 +63,7 @@
       client.on('connect', function () {
          alert("on connect")
          client.publish(topic,"false");
+         
          if(!state.subscribe){
             client.subscribe(topic, function (err) {     
                   if (!err) {
@@ -87,7 +88,7 @@
       //}catch{}     
       })
       client.on('offline', function () {
-         client.end() 
+         //client.end() 
       })
    
 </script>
