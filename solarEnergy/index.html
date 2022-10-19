@@ -10,24 +10,24 @@
  <style>
    body{
       width: 100%;
-      max-width: 512px;
+      max-width: 304px;
       margin: auto;
    }
   
 </style>
 </head>
 <body>
-   <article class="card">
-      <header><h3>Wind Power</h3><h4 id="h4_wp"></h4></header>
-   </article>
-   <article class="card">
-      <header>        
+   <div >
+      <div class="navbar-brand">
+        
+           <h1 class="is-size-1">Solar Energy</h1 >
+        
+      </div>
          <div>
-            <button id="btnOnOff" class="btn primary" type="button" onclick="publish()">CONNECT</button>
+            <button id="btnOnOff" class="button" type="button" onclick="publish()">CONNECT</button>
             <img  id="imgOffOn" class="fit-picture" src="" alt="" style="display:block">           
-         </div>         
-      </header>
-    </article>
+         </div>
+      </div>
 <script>
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
    const searchParams = new URLSearchParams(window.location.search)
