@@ -61,6 +61,7 @@
       connect()
 
       client.on('connect', function () {
+         alert("on connect")
          client.publish(topic,"false");
          if(!state.subscribe){
             client.subscribe(topic, function (err) {     
@@ -75,7 +76,7 @@
       
    client.on('message', function (topic, message) {
      // try{
-        alert("on connect")
+        alert("on message")
          const msg=message.toString();
          state.isOn=msg=="true";
          document.getElementById("btnOnOff").innerText=(state.isOn?"OFF":"ON");
