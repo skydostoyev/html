@@ -24,20 +24,23 @@
         
       </div>
          <div>
-            <button id="btnOnOff" class="button is-primary" type="button" onclick="publish()">接続</button>
-           
+            <button id="btnOnOff" class="button is-primary is-size-5" type="button" onclick="publish()">接続</button>
+           <br/>
             <img  id="imgOffOn" class="fit-picture" src="" alt="" style="display:block">           
          </div>
          <br/>
          <div id="secReload" style="visibility:hidden">
             
-            <button id="btnReload" class="button is-danger" type="button" onclick="reload()">再読込</button>
-            <h6 class="is-size-5">
-              長時間アイドル後に反応しない場合、再読込ボタンをクリックください。
-            </h6>
-            <h6 class="is-size-5">
-               サーバー通信では当該の問題は起こりません。
-             </h6>
+            <button id="btnReload" class="button is-danger is-size-7" type="button" onclick="reload()">再読込</button>
+            <p class="is-size-7">
+              長時間アイドル後に反応しない場合、
+            </p>
+            <p class="is-size-7">
+               再読込ボタンをクリックください。
+             </p>
+            <p class="is-size-7">
+               ウェブブラウザ固有の問題です。ネイティブアプリでは当該の問題は発生しません。
+            </p>
             </div>
       </div>
 <script>
