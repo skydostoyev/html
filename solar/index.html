@@ -112,7 +112,7 @@
    window.onclose = ()=>{client.end();}
    function publish(){
       
-      if(!client.connected){
+      if(!(client.connected)){
          alert("再読込します")
          location.reload()
          
