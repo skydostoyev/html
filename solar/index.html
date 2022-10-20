@@ -24,10 +24,21 @@
         
       </div>
          <div>
-            <button id="btnOnOff" class="button" type="button" onclick="publish()">CONNECT</button>
-            <button id="btnReload" class="button" type="button" onclick="reload()">RELOAD</button>
+            <button id="btnOnOff" class="button is-primary" type="button" onclick="publish()">接続</button>
+           
             <img  id="imgOffOn" class="fit-picture" src="" alt="" style="display:block">           
          </div>
+         <br/>
+         <div id="secReload" style="visibility:hidden">
+            
+            <button id="btnReload" class="button is-danger" type="button" onclick="reload()">再読込</button>
+            <h6 class="is-size-5">
+              長時間アイドル後に反応しない場合、再読込ボタンをクリックください。
+            </h6>
+            <h6 class="is-size-5">
+               サーバー通信では当該の問題は起こりません。
+             </h6>
+            </div>
       </div>
 <script>
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
@@ -84,6 +95,7 @@
          const msg=message.toString();
          state.isOn=msg=="true";
          document.getElementById("btnOnOff").innerText=(state.isOn?"OFF":"ON");
+          document.getElementById("secReload").style.visibility="visible";
          const src=msg==true.toString()?img[1].src:msg==false.toString()?img[0].src:null
          if(src){
          document.getElementById("imgOffOn").src=src
@@ -111,7 +123,10 @@
        client.publish(topic,(!state.isOn).toString());
       }
    }
-   function reload(){location.reload()}
+   function reload(){
+      location.reload()
+      
+      }
 </script>
 </body>
 </html>
