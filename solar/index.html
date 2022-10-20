@@ -109,7 +109,17 @@
          //client.end() 
          location.reload()
       })
-   
+      client.on('disconnect', function () {
+         alert("disconnect")
+         //client.end() 
+         location.reload()
+
+      })
+      client.on('reconnect', function () {
+         alert("reconnect")
+         //client.end() 
+         location.reload()
+      })
 </script>
 <script>  
    window.onclose = ()=>{client.end();}
