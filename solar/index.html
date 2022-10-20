@@ -25,6 +25,7 @@
       </div>
          <div>
             <button id="btnOnOff" class="button" type="button" onclick="publish()">CONNECT</button>
+            <button id="btnReload" class="button" type="button" onclick="reload()">RELOAD</button>
             <img  id="imgOffOn" class="fit-picture" src="" alt="" style="display:block">           
          </div>
       </div>
@@ -105,10 +106,12 @@
         
          return;
       }
-      //alert("publish"+topic+" "+(!state.isOn).toString())
+      else{
+      alert("publish"+topic+" "+(!state.isOn).toString())
        client.publish(topic,(!state.isOn).toString());
-      
+      }
    }
+   function reload(){location.reload()}
 </script>
 </body>
 </html>
