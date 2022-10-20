@@ -107,18 +107,18 @@
       })
       client.on('offline', function () {
          //client.end() 
-         location.reload()
+         //location.reload()
       })
       client.on('disconnect', function () {
         // alert("disconnect")
          //client.end() 
-         location.reload()
+        // location.reload()
 
       })
       client.on('reconnect', function () {
         // alert("reconnect")
          //client.end() 
-         location.reload()
+         //location.reload()
       })
 </script>
 <script>  
@@ -127,8 +127,7 @@
       
       if(!(client.connected)){
          alert("再読込します")
-         location.reload()
-         
+         location.reload()         
          return;
       }
       else{
@@ -137,8 +136,7 @@
       }
    }
    function reload(){
-      location.reload()
-      
+      location.reload()      
       }
 </script>
 </body>
