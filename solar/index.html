@@ -21,7 +21,12 @@
       <div class="navbar-brand">
         
            <h1 class="is-size-1">Solar Energy</h1 >
+            
         
+      </div>
+      <div class="navbar-brand">
+           <h6 id="h_user" class="is-size-5"></h6 >
+            
       </div>
          <div>
             <button id="btnOnOff" class="button is-primary is-size-5" type="button" onclick="publish()">接続</button>
@@ -47,8 +52,11 @@
    const ticks = ((new Date().getTime() * 10000) + 621355968000000000);
    const searchParams = new URLSearchParams(window.location.search)
    const mqttOpt = { keepalive: 60*10};
+   const qHex =  searchParams.get('q');
+   const exsitsQ =qHex !=null;
+   
    mqttOpt.username = searchParams.get('u');
-   mqttOpt.password = searchParams.get('p');
+   mqttOpt.password = "password";
    mqttOpt.clientId = mqttOpt.username+"-"+ticks;
    
 </script>
@@ -62,6 +70,7 @@
    img[1].src = "imgOn.png";
    //img[2] = new Image();
    //img[2].src = "off.png";
+   document.getElementById("h_user").innerHTML=`ユーザー名: ${mqttOpt.username}`;
 </script>
 <script>
    let client;
@@ -70,8 +79,7 @@
          state.subscribe=false
          //alert(topic)
          //state.isOn=true
-         client = mqtt.connect('wss://a1zozlrub2di0x-ats.iot.ap-northeast-1.amazonaws.com:443?x-amz-customauthorizer-name=iotCCustomAuth&testonly=yokohama',mqttOpt);
-      
+         client = mqtt.connect('wss://a1zozlrub2di0x-ats.iot.ap-northeast-1.amazonaws.com:443?x-amz-customauthorizer-name=iotCCustomAuth' + (exsitsQ?'&q=' + qHex:""), mqttOpt);      
       }
       connect()
 
