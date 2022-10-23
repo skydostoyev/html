@@ -54,8 +54,7 @@
    const mqttOpt = { keepalive: 60*10};
    const qHex =  searchParams.get('q');
    const exsitsQ =qHex !=null;
-   
-   mqttOpt.username = searchParams.get('u');
+   mqttOpt.username =exsitsQ?searchParams.get('u'):"test";
    mqttOpt.password = "password";
    mqttOpt.clientId = mqttOpt.username+"-"+ticks;
    
@@ -70,7 +69,7 @@
    img[1].src = "imgOn.png";
    //img[2] = new Image();
    //img[2].src = "off.png";
-   document.getElementById("h_user").innerHTML=`ユーザー名: ${mqttOpt.username}`;
+   document.getElementById("h_user").innerHTML=`ユーザー名  : ${mqttOpt.username}`;
 </script>
 <script>
    let client;
