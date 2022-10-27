@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  　　<meta name="viewport" content="width=device-width" >
+  <title>AWS-MQTT</title>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="jquery-3.6.1.min.js"></script>
+ <!-- <script src="https://bundle.run/buffer"></script>-->
+  <link rel="stylesheet" href="bulma.css">
+ <style>
+   body{
+      width: 100%;
+      max-width: 304px;
+      margin: auto;
+   }
+  
+</style>
+</head>
+<body>
+   <div >
+      <div class="navbar-brand">
+           <h1 class="is-size-1">Solar Energy</h1 >           
+      </div>
+
+      <div class="navbar-brand">
+           <h6 id="h_user" class="is-size-5"></h6 >            
+      </div>
+
+      <div>
+         <label for="email">Enter your email:</label>
+         <input type="email" id="email" pattern=".+@.+" size="30" required>
+
+       <button id="btnOnOff" class="button is-primary is-size-5" type="button" onclick="login()">Login</button>            
+      </div>
+      <div id="div_debug"></div>     
+   </div>
+   
+   <script language="javascript" type="text/javascript">
+      function login() {
+        
+         var email = document.getElementById('email').value;
+         JSON.stringify({email:email}) ;
+         var xmlhttp = new XMLHttpRequest();
+         const myHeaders = new Headers();
+         myHeaders.append('Accept', 'application/json');
+         //myHeaders.append("Authorization","allow"); 
+         myHeaders.append("Content-Type","application/json"); 
+         myHeaders.append("Set-Cookie","age=5744444444444444444444444444444444444444444444444444444444444444444444"); 
+         const myInit = {
+            method: 'POST',
+            headers: myHeaders,
+            mode: 'cors',
+            credentials: 'include'
+         };
+         
+
+    const re=fetch('https://iot.pocurl.link/prod/login',myInit)
+    .then((response) => {
+       return response.json();
+    })
+    .then((data) => {
+      //console.log(data.body);
+      
+      document.getElementById("div_debug").innerHTML=JSON.stringify(data);
+    });
+
+
+      }
+      </script>
+</body>
+</html>
+
+"sec-fetch-mode":"cors","x-amzn-tls-version":"TLSv1.2","sec-fetch-site":"cross-site","x-forwarded-proto":"https","origin":"http://127.0.0.1:5500","x-forwarded-port":"443","x-forwarded-for":"106.72.40.161","accept":"*/*","via":"2.0 01a455b735347358143739c76de1ab1c.cloudfront.net (CloudFront)","x-amzn-tls-cipher-suite":"ECDHE-RSA-AES128-GCM-SHA256","sec-ch-ua":"\"Chromium\";v=\"106\", \"Google Chrome\";v=\"106\", \"Not;A=Brand\";v=\"99\"","sec-ch-ua-mobile":"?0","x-amzn-trace-id":"Root=1-635a2ae7-30f4607a3eb1403004f0b1a1","sec-ch-ua-platform":"\"Windows\"","host":"4c6jupphnqmrmihkjtyxbtavfq0idpnx.lambda-url.ap-northeast-1.on.aws","accept-encoding":"gzip","x-amz-cf-id":"EM3R5c1hbn195CY1xrV7yKhvNNFRS6QVZeEfv6yLUBoZbbOQPyc7bQ==","sec-fetch-dest":"empty","user-agent":"Amazon CloudFront"}
+
+
