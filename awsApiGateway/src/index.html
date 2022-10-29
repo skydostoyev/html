@@ -38,13 +38,15 @@
    </div>
    
    <script language="javascript" type="text/javascript">
-      const myInit = {
+      
+      function fetchS3(){
+         const myInit = {
             method: 'GET',
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'include',
+            body:JSON.stringify({country:"Japan"}),
          };
 
-      function fetchS3(){
          const re=fetch('https://d2s6bti7djlk56.cloudfront.net/text.json',myInit)
     .then((response) => {
        return response.json();
