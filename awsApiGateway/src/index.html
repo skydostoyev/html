@@ -44,7 +44,7 @@
             method: 'GET',
             mode: 'cors',
             credentials: 'include',
-            body:JSON.stringify({country:"Japan"}),
+           
          };
 
          const re=fetch('https://d2s6bti7djlk56.cloudfront.net/text.json',myInit)
@@ -72,7 +72,8 @@
             method: 'POST',
             headers: myHeaders,
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'include',
+            body:JSON.stringify({country:"Japan"})
          };
          
 
