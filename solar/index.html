@@ -34,7 +34,7 @@
             <img  id="imgOffOn" class="fit-picture" src="" alt="" style="display:block">           
          </div>
          <br/>
-         <div id="secReload" style="visibility:hidden">
+         <div id="secReload" >
             
             <button id="btnReload" class="button is-danger is-size-7" type="button" onclick="reload()">再読込</button>
             <p class="is-size-7">
@@ -105,7 +105,7 @@
          const msg=message.toString();
          state.isOn=msg=="true";
          document.getElementById("btnOnOff").innerText=(state.isOn?"OFF":"ON");
-          document.getElementById("secReload").style.visibility="visible";
+          //document.getElementById("secReload").style.visibility="visible";
          const src=msg==true.toString()?img[1].src:msg==false.toString()?img[0].src:null
          if(src){
          document.getElementById("imgOffOn").src=src
