@@ -2,5 +2,6 @@ doc/
 /awsApiGateway/
 tmp.*
 *.md
+!README.md
 *.txt
 
