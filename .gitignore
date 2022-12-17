@@ -1,5 +1,5 @@
 doc/
-/awsApiGateway/
+awsApiGateway/
 tmp.*
 *.md
 !README.md
