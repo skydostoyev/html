@@ -1,4 +1,4 @@
-$branch = authUsingEmail
+$branch = "authUsingEmail"
 $tm = Get-Date (Get-Date).AddHours(+9)
 $arr =@(
     "git add ." ,  
