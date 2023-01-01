@@ -1,0 +1,9 @@
+{
+  "name": "x",
+  "version": "0.1.0",
+  "scripts": {
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  }
+}
